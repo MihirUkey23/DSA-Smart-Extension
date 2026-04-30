@@ -1,23 +1,3 @@
-// chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-
-//   if (request.action === "GET_PROBLEM") {
-
-//     let rawTitle = document.querySelector(".text-title-large a")?.innerText || "";
-
-//     // remove "1. " from start
-//     let title = rawTitle.replace(/^\d+\.\s*/, "");
-
-//     let description =
-//       document.querySelector('[data-track-load="description_content"]')?.innerText ||
-//       document.querySelector(".elfjS")?.innerText ||
-//       "Description not found";
-
-//     sendResponse({ title , description });
-
-//   }
-
-// });
-
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
   if (request.action === "GET_PROBLEM") {
@@ -50,11 +30,5 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     sendResponse({ title, description });
   }
 
-  // chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-
-  // if (request.action === "SHOW_HINTS") {
-  //   createHintBox(request.hints);
-  // }
-
-// });
+  
 });
