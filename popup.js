@@ -1,43 +1,3 @@
-// document.getElementById("getProblem").addEventListener("click", async () => {
-//   chrome.tabs.query({ active: true, currentWindow: true }, async (tabs) => {
-
-//     chrome.tabs.sendMessage(tabs[0].id, { action: "GET_PROBLEM" }, async (response) => {
-
-//       const problemText = response.title + "\n\n" + response.description;
-
-//       const aiResponse = await fetch("https://integrate.api.nvidia.com/v1/chat/completions", {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//           "Authorization": "Bearer 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"
-//         },
-//         body: JSON.stringify({
-//           model: "meta/llama-4-maverick-17b-128e-instruct", // you can change model
-//           messages: [
-//             {
-//               role: "system",
-//               content: "You are a DSA mentor. Give only hints. Do NOT give full solution or code."
-//             },
-//             {
-//               role: "user",
-//               content: problemText
-//             }
-//           ],
-//           temperature: 0.7,
-//           max_tokens: 500
-//         })
-//       });
-
-//       const data = await aiResponse.json();
-
-//       const hint = data.choices[0].message.content;
-
-//       document.getElementById("output").innerText = hint;
-
-//     });
-
-//   });
-// });
 
 document.getElementById("getProblem").addEventListener("click", async () => {
 
@@ -47,8 +7,7 @@ document.getElementById("getProblem").addEventListener("click", async () => {
 
     chrome.tabs.sendMessage(tabs[0].id, { action: "GET_PROBLEM" }, async (response) => {
 
-      // const problemText = response.title + "\n\n" + response.description;
-      // const problemText = `${response.title || ""}\n\n${response.description || ""}`;
+      
       const problemText = [response.title, response.description]
         .filter(Boolean)
         .join("\n\n");
@@ -72,15 +31,12 @@ document.getElementById("getProblem").addEventListener("click", async () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          // "Authorization": "Bearer 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"
+          
           "Authorization": `Bearer ${API_KEY}`
         },
         body: JSON.stringify({
           model: "meta/llama-4-maverick-17b-128e-instruct",
-          // messages: [
-          //   { role: "system", content: "You are a DSA mentor." },
-          //   { role: "user", content: prompt + "\n\n" + problemText }
-          // ]
+         
 
           messages: [
             {
@@ -95,25 +51,14 @@ document.getElementById("getProblem").addEventListener("click", async () => {
         })
       });
 
-      //phase 2
-      // chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      // chrome.tabs.sendMessage(tabs[0].id, {
-      //  action: "SHOW_HINTS",
-      //  hints: hints
-      //  });
-// });
+      
       const data = await aiResponse.json();
       const text = data.choices[0].message.content;
 
-      // document.getElementById("loading").innerText = "";
+      
       document.getElementById("loading").innerText = " Generating smart hints...";
 
-      // // Split hints
-      // const hints = text.split("Hint").slice(1).map(h => h.trim());
-
-      // const hint1 = hints[0]?.replace(/^1:\s*/, "");
-      // const hint2 = hints[1]?.replace(/^2:\s*/, "");
-      // const hint3 = hints[2]?.replace(/^3:\s*/, "");
+      
 
       
       console.log("AI RESPONSE:", text);
